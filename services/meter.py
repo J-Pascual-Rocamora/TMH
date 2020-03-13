@@ -5,22 +5,23 @@ import random
 
 class Meter(object):
 
-    def __init__(self, port_numer, real_time_flag, conneection_interval=1800):
+    def __init__(self, port_numer, real_time_flag, connection_interval=1800):
         self._current_value = random.uniform(0, 9000)
         self._connection_interval = 1800
-        self._initialize_connection(port_numer)
+        self._port_number = port_numer
         self._real_time_flag = real_time_flag
 
     def __repr__(self):
         return '<Meter>'
 
-    def _initialize_connection(self, port_numer):
-        self._connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost', port=port_numer))
+    def _initialize_connection(self):
+        self._connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost', port=self._port_number))
         self._channel = self._connection.channel()
         self._channel.queue_declare(queue='pv_simulation', durable=True)
         return
 
     def start_casting(self):
+        self._initialize_connection()
         if self._real_time_flag is False:
             current_time = 0
             time_str = time.localtime()

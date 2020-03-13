@@ -15,14 +15,14 @@ class PVSimulator(object):
         self._output_path = os.path.join(os.getcwd(), 'output.csv')
         print('Output path:')
         print(self._output_path)
+        self._port_numer = port_numer
         self._initialize_output()
-        self._initialie_connection(port_numer)
 
     def __repr__(self):
         return '<PVSimulator: 3.25kW>'
 
-    def _initialie_connection(self, port_numer):
-        self._connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost', port=port_numer))
+    def _initialie_connection(self):
+        self._connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost', port=self._port_numer))
         self._channel = self._connection.channel()
         self._channel.queue_declare(queue='pv_simulation', durable=True)
         self._channel.basic_qos(prefetch_count=1)
@@ -30,6 +30,7 @@ class PVSimulator(object):
         return
 
     def start_consuming(self):
+        self._initialie_connection()
         self._channel.start_consuming()
         return
 

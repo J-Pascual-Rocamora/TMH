@@ -1,4 +1,3 @@
-# # docker run -d --hostname flask-rabbit --name flask-rabbit -p 4369:4369 -p 5671:5671 -p 5672:5672 rabbitmq:3
 import argparse
 import threading
 
