@@ -1,5 +1,5 @@
 # Readme
-To run the code, you will need a running RabbitMQ instance.
+To run the code, you will need a running RabbitMQ instance and python 3.
 If you are a docker user, you could install one with the line:
 ```sh
 docker run -d --hostname flask-rabbit --name flask-rabbit -p 4369:4369 -p 5671:5671 -p 5672:5672 rabbitmq:3
@@ -42,6 +42,11 @@ python main.py --h
 
 To stop the code simply click CTRL+C. The code will close all the RabbitMQ instances.
 
+# Tests
+You can run the tests from within the virtualenvironment with the command:
+```bash
+python -m pytest tests.py
+```
 
 # Output
 The output is saved into a CSV file. The file has five columns:
