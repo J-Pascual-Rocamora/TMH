@@ -1,4 +1,6 @@
 # Readme
+Developer: Javier Pascual Rocamora
+
 To run the code, you will need a running RabbitMQ instance and python 3.
 If you are a docker user, you could install one with the line:
 ```sh
