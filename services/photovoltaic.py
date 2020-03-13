@@ -39,7 +39,8 @@ class PVSimulator(object):
         time_in_seconds = data['time']['hour']*3600 + data['time']['minute']*60 + data['time']['second']
         ph_power = self.get_power(time_in_seconds)
         power_sum = ph_power + data['meter_reading']
-        self._append_output(data['time'], data['meter_reading'], ph_power, power_sum)
+        net_value = ph_power - data['meter_reading']
+        self._append_output(data['time'], data['meter_reading'], ph_power, power_sum, net_value)
 
     def get_power(self, x):
         # gets the cell power
@@ -71,13 +72,13 @@ class PVSimulator(object):
 
     def _initialize_output(self):
         with open(self._output_path, 'w') as f:
-            f.write('"Time Stamp","Meter (W)", "PV (W)", "Power Sum (W)"\n')
+            f.write('"Time Stamp","Meter (W)", "PV (W)", "Meter + PV (W)", "PV - Meter (W)"\n')
         return
 
-    def _append_output(self, time_dict, meter, pv, power_sum):
+    def _append_output(self, time_dict, meter, pv, power_sum, net_value):
         timestmp = '{}-{}-{} {}:{}:{}'.format(time_dict['year'], time_dict['month'], time_dict['day'], time_dict['hour'], time_dict['minute'], time_dict['second'])
         with open(self._output_path, 'a') as f:
-            f.write('"{}","{}", "{}", "{}"\n'.format(timestmp, meter, pv, power_sum))
+            f.write('"{}","{}", "{}", "{}", "{}"\n'.format(timestmp, meter, pv, power_sum, net_value))
         return
     
     def close_connection(self):
