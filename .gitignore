@@ -3,3 +3,5 @@
 services/*.pyc
 __pycache__
 services/__pycache__
+env
+venv
